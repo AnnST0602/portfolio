@@ -281,6 +281,23 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 .send{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .send .btn{padding:14px 10px;font-size:11px;letter-spacing:.14em}
 .form-note{font-size:13px;color:var(--dim);margin:14px 0 0}
+.reach{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.reach label{cursor:pointer}
+.reach input{position:absolute;opacity:0;pointer-events:none}
+.reach span{display:block;text-align:center;padding:13px 6px;border:1px solid var(--line);font:400 11px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:.25s}
+.reach input:checked+span{border-color:var(--accent);color:var(--text);background:rgba(234,215,189,.08)}
+.reach input:focus-visible+span{outline:1px solid var(--accent)}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.send-direct{margin-top:18px}.send-direct .btn{width:100%}
+.direct-note,.send-direct,.done{display:none}
+.sheet.direct .send-direct,.sheet.direct .direct-note{display:block}
+.sheet.direct .send,.sheet.direct .via-label,.sheet.direct .via-note{display:none}
+.sheet.sent>*:not(.done):not(.x){display:none!important}
+.sheet.sent .done{display:block;text-align:center;padding:30px 0 10px}
+.done b{display:block;font:500 34px/1.1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.done p{color:var(--muted);margin:0 0 24px}
+.sheet .btn[disabled]{opacity:.6;pointer-events:none}
+@media (max-width:520px){.reach{grid-template-columns:repeat(2,1fr)}}
 .err{color:#e59a7a;font-size:14px;margin:10px 0 0;min-height:20px}
 @media (max-width:520px){.row2,.send{grid-template-columns:minmax(0,1fr)}}
 
@@ -703,19 +720,32 @@ h2.in .w>span{transform:none}
       <label class="field"><span>Телефон *</span><input name="phone" type="tel" required autocomplete="tel" placeholder="+7"></label>
     </div>
     <label class="field"><span>Что за праздник</span><textarea name="note" placeholder="Свадьба, 120 гостей, ресторан…"></textarea></label>
-    <div class="send-label">Отправить через</div>
+    <div class="send-label">Как с вами связаться?</div>
+    <div class="reach" role="radiogroup">
+      <label><input type="radio" name="reach" value="WhatsApp" checked><span>WhatsApp</span></label>
+      <label><input type="radio" name="reach" value="Telegram"><span>Telegram</span></label>
+      <label><input type="radio" name="reach" value="MAX"><span>MAX</span></label>
+      <label><input type="radio" name="reach" value="Звонок"><span>Звонок</span></label>
+    </div>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="send-direct"><button class="btn solid" type="submit" data-via="bot">Отправить заявку</button></div>
+    <div class="send-label via-label">Отправить через</div>
     <div class="send">
       <button class="btn solid" type="submit" data-via="wa"><svg><use href="#i-wa"/></svg>WhatsApp</button>
       <button class="btn" type="submit" data-via="tg"><svg><use href="#i-tg"/></svg>Telegram</button>
       <button class="btn" type="submit" data-via="mail"><svg><use href="#i-mail"/></svg>Почта</button>
     </div>
     <p class="err" id="ferr" role="alert"></p>
-    <p class="form-note">Откроется мессенджер с готовым текстом заявки, останется нажать «Отправить». Для Telegram текст скопируется, его нужно вставить в чат.</p>
+    <p class="form-note via-note">Откроется мессенджер с готовым текстом заявки, останется нажать «Отправить». Для Telegram текст скопируется, его нужно вставить в чат.</p>
+    <p class="form-note direct-note">Заявка сразу придёт Тимуру. Он свяжется с вами удобным способом и назовёт стоимость.</p>
+    <div class="done" aria-live="polite"><b>Спасибо!</b><p>Заявка уже у Тимура. Он скоро свяжется с вами.</p><button type="button" class="btn" id="dclose">Закрыть</button></div>
   </form>
 </div>
 
 <script>
-const CONTACT = { phone: "79185526632", email: "timur_kam@inbox.ru" };
+// endpoint: the Google Apps Script web-app URL that forwards requests to Timur's Telegram bot.
+// Empty = fallback mode (the form opens WhatsApp / Telegram / e-mail with a prefilled text).
+const CONTACT = { phone: "79185526632", email: "timur_kam@inbox.ru", endpoint: "" };
 document.getElementById("y").textContent = new Date().getFullYear();
 
 // loader + hero parallax
@@ -833,14 +863,17 @@ const freeze = on => { const b = document.body;
   if (on) { savedY = scrollY; b.style.top = -savedY + "px"; b.classList.add("lock", "fixed"); }
   else { b.classList.remove("lock", "fixed"); b.style.top = ""; scrollTo({ top: savedY, behavior: "instant" }); } };
 const openM = t => { topic = t || ""; modal.classList.add("open"); freeze(true); callbar.classList.remove("show"); if (matchMedia("(hover: hover)").matches) setTimeout(() => form.city.focus(), 300); };
-const closeM = () => { if (!modal.classList.contains("open")) return; modal.classList.remove("open"); freeze(false); };
+const closeM = () => { if (!modal.classList.contains("open")) return; modal.classList.remove("open"); freeze(false);
+  if (form.classList.contains("sent")) { form.classList.remove("sent"); form.reset(); } };
+if (CONTACT.endpoint) form.classList.add("direct");
+document.getElementById("dclose").onclick = closeM;
 document.querySelectorAll("[data-request]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); setMenu(false); openM(b.dataset.topic); }));
 document.getElementById("mclose").onclick = closeM;
 modal.addEventListener("click", e => { if (e.target === modal) closeM(); });
 addEventListener("keydown", e => { if (e.key === "Escape") closeM(); });
 form.addEventListener("submit", async e => {
   e.preventDefault();
-  const via = (e.submitter && e.submitter.dataset.via) || "wa";
+  const via = (e.submitter && e.submitter.dataset.via) || (CONTACT.endpoint ? "bot" : "wa");
   const v = n => form[n].value.trim();
   const miss = ["city", "date", "phone"].filter(n => !v(n));
   form.querySelectorAll("input").forEach(i => i.style.borderColor = miss.includes(i.name) ? "#e59a7a" : "");
@@ -848,8 +881,20 @@ form.addEventListener("submit", async e => {
   ferr.textContent = "";
   const d = v("date").split("-").reverse().join(".");
   const text = ["Здравствуйте! Заявка с сайта группы МУЗ СОЮЗ.", topic,
-    "Город: " + v("city"), "Дата: " + d, v("name") && "Имя: " + v("name"), "Телефон: " + v("phone"), v("note") && "О празднике: " + v("note")]
+    "Город: " + v("city"), "Дата: " + d, v("name") && "Имя: " + v("name"), "Телефон: " + v("phone"), "Связаться: " + form.reach.value, v("note") && "О празднике: " + v("note")]
     .filter(Boolean).join("\n");
+  if (via === "bot") {
+    if (v("website")) return; // spam bot filled the hidden field
+    const btn = form.querySelector(".send-direct .btn"); btn.disabled = true; btn.textContent = "Отправляем…";
+    try {
+      await fetch(CONTACT.endpoint, { method: "POST", mode: "no-cors", body: new URLSearchParams({
+        topic, city: v("city"), date: d, name: v("name"), phone: v("phone"), reach: form.reach.value, note: v("note"), page: location.href }) });
+      form.classList.add("sent");
+    } catch (_) {
+      form.classList.remove("direct"); ferr.textContent = "Не получилось отправить. Выберите мессенджер ниже, заявка откроется с готовым текстом.";
+    }
+    btn.disabled = false; btn.textContent = "Отправить заявку"; return;
+  }
   if (via === "wa") window.open(`https://wa.me/${CONTACT.phone}?text=${encodeURIComponent(text)}`, "_blank");
   else if (via === "tg") { try { await navigator.clipboard.writeText(text); } catch (_) {} window.open(`https://t.me/+${CONTACT.phone}`, "_blank"); ferr.textContent = "Текст заявки скопирован, вставьте его в чат."; }
   else location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent("Заявка с сайта: " + v("city") + ", " + d)}&body=${encodeURIComponent(text)}`;
