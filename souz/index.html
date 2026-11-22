@@ -375,6 +375,19 @@ h2.in .w>span{transform:none}
 .in .arm,.vinyl.in .arm{transform:rotate(30deg)}
 @media (max-width:900px){.rep{grid-template-columns:1fr!important}.vinyl{width:min(260px,70vw);margin:0 auto}}
 
+
+/* client logos */
+.clients-head{margin:80px 0 26px;display:flex;align-items:center;gap:20px;font:400 12px/1 var(--display);letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+.clients-head::before,.clients-head::after{content:"";flex:1;height:1px;background:currentColor;opacity:.3}
+.clients{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(9,1fr);gap:12px}
+.clients li{aspect-ratio:1;background:#fffdf9;border-radius:14px;display:grid;place-items:center;box-shadow:0 1px 0 rgba(60,36,22,.06),0 10px 30px -18px rgba(60,36,22,.35);opacity:0;transform:translateY(24px) scale(.96);transition:opacity .7s calc(var(--i)*80ms),transform .9s cubic-bezier(.2,.7,.2,1) calc(var(--i)*80ms),box-shadow .4s}
+.clients.in li{opacity:1;transform:none}
+.clients img{max-width:58%;max-height:52%;object-fit:contain;filter:grayscale(1) sepia(.35) opacity(.75);transition:filter .8s calc(var(--i)*120ms + .4s),transform .5s}
+.clients.in img{filter:none}
+.clients li:hover{box-shadow:0 1px 0 rgba(60,36,22,.06),0 18px 40px -16px rgba(60,36,22,.45)}
+.clients li:hover img{transform:scale(1.08)}
+@media (max-width:1100px){.clients{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:700px){.clients{grid-template-columns:repeat(3,1fr);gap:10px}.clients-head{margin-top:56px}}
 /* venues ticker */
 .stages{display:block!important;overflow:hidden;margin-top:60px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
 .stages-track{display:flex;width:max-content;gap:40px;align-items:center;animation:run 30s linear infinite}
@@ -476,14 +489,14 @@ h2.in .w>span{transform:none}
         <div class="stat"><b data-count="15" data-pre="до ">0</b><span>музыкантов на сцене</span></div>
       </div>
     </div>
-    <div class="group-photo rv dev px" data-speed=".12"><img class="photo" src="img/g1.jpg" alt="МУЗ СОЮЗ на открытой сцене" loading="lazy"></div>
+    <div class="group-photo rv dev px" data-speed=".12"><img class="photo" src="img/p03.jpg" alt="Группа МУЗ СОЮЗ в полном составе" loading="lazy" style="object-position:50% 22%"></div>
   </section>
 
   <!-- СОСТАВ -->
   <section class="lineup spotlight" id="lineup">
     <div class="wrap lineup-grid">
       <figure class="vocal rv dev" style="margin:0">
-        <img class="photo" src="img/vocal.jpg" alt="Вокалисты группы МУЗ СОЮЗ на сцене" loading="lazy">
+        <img class="photo" src="img/p32.jpg" alt="Тимур Камышанский и Сабина Салимова" loading="lazy" style="object-position:50% 24%">
         <figcaption>
           <div>Тимур Камышанский<small>мужской вокал</small></div>
           <div>Сабина Салимова<small>женский вокал</small></div>
@@ -595,7 +608,18 @@ h2.in .w>span{transform:none}
         <div class="award rv d1"><b>Wedding Awards South 2022</b><span>Обладатели премии</span></div>
         <div class="award rv d2"><b>«Собака 25 КРД»</b><span>Лучшая группа по версии издания</span></div>
       </div>
-      <!-- Бегущая строка площадок. Когда будут логотипы клиентов: <img src="img/clients/имя.svg" alt="Компания"> вместо <span> -->
+      <div class="clients-head rv"><span>С нами работали</span></div>
+      <ul class="clients" aria-label="Компании, с которыми мы работали">
+        <li style="--i:0"><img src="img/clients/alfa.png" alt="Альфа-Банк" loading="lazy"></li>
+        <li style="--i:1"><img src="img/clients/sber.png" alt="Сбер" loading="lazy"></li>
+        <li style="--i:2"><img src="img/clients/gazprom.png" alt="Газпром" loading="lazy"></li>
+        <li style="--i:3"><img src="img/clients/mts.png" alt="МТС" loading="lazy"></li>
+        <li style="--i:4"><img src="img/clients/beeline.png" alt="Билайн" loading="lazy"></li>
+        <li style="--i:5"><img src="img/clients/rostelecom.png" alt="Ростелеком" loading="lazy"></li>
+        <li style="--i:6"><img src="img/clients/x5.png" alt="X5 Group" loading="lazy"></li>
+        <li style="--i:7"><img src="img/clients/metriks.png" alt="Метрикс Development" loading="lazy"></li>
+        <li style="--i:8"><img src="img/clients/essk.png" alt="ЕССК" loading="lazy"></li>
+      </ul>
       <div class="stages rv" aria-label="Площадки и партнёры">
         <div class="stages-track">
           <span>Формула 1</span><i>✦</i><span>Фестивали Сбербанка</span><i>✦</i><span>Фестивали Лукойла</span><i>✦</i><span>Онлайн-фестивали</span><i>✦</i><span>«Битва каверов» · СТС</span><i>✦</i>
@@ -610,15 +634,15 @@ h2.in .w>span{transform:none}
   <section id="gallery">
     <div class="wrap">
       <div class="kicker rv center">Фото</div>
-      <h2 class="rv d1" style="text-align:center">На <em>сцене</em></h2>
+      <h2 class="rv d1" style="text-align:center">На сцене <em>и не только</em></h2>
       <div class="gallery">
-        <figure class="g1 rv dev px" data-speed=".08"><img class="photo" src="img/g3.jpg" alt="Выступление на большой площадке" loading="lazy"></figure>
+        <figure class="g1 rv dev px" data-speed=".08"><img class="photo" src="img/p039.jpg" alt="МУЗ СОЮЗ в полном составе" loading="lazy" style="object-position:50% 40%"></figure>
         <figure class="g2 rv d1 dev px" data-speed=".14"><img class="photo" src="img/g2.jpg" alt="Поклон после концерта со струнной секцией" loading="lazy"></figure>
-        <figure class="g3 rv d1 dev px" data-speed=".1"><img class="photo" src="img/vocal.jpg" alt="Вокалисты на сцене" loading="lazy"></figure>
-        <figure class="g4 rv d2 dev px" data-speed=".16"><img class="photo" src="img/g6.jpg" alt="Участники группы" loading="lazy" style="object-position:50% 20%"></figure>
+        <figure class="g3 rv d1 dev px" data-speed=".1"><img class="photo" src="img/p098.jpg" alt="Участники группы на фотосессии" loading="lazy" style="object-position:50% 52%"></figure>
+        <figure class="g4 rv d2 dev px" data-speed=".16"><img class="photo" src="img/p05.jpg" alt="Вокалисты Тимур и Сабина" loading="lazy" style="object-position:52% 22%"></figure>
         <figure class="g5 rv dev px" data-speed=".06"><img class="photo" src="img/g4.jpg" alt="Гости танцуют под живую музыку" loading="lazy"></figure>
-        <figure class="g6 rv d1 dev px" data-speed=".12"><img class="photo" src="img/g5.jpg" alt="Состав группы" loading="lazy"></figure>
-        <figure class="g7 rv d2 dev px" data-speed=".18"><img class="photo" src="img/hero.jpg" alt="Вокалисты на сцене" loading="lazy"></figure>
+        <figure class="g6 rv d1 dev px" data-speed=".12"><img class="photo" src="img/p01.jpg" alt="Группа МУЗ СОЮЗ" loading="lazy" style="object-position:50% 52%"></figure>
+        <figure class="g7 rv d2 dev px" data-speed=".18"><img class="photo" src="img/p33.jpg" alt="Музыканты группы" loading="lazy" style="object-position:50% 30%"></figure>
       </div>
       <div class="socials rv">
         <a class="soc" href="https://instagram.com/muzsouz" target="_blank" rel="noopener"><svg><use href="#i-ig"/></svg>@muzsouz</a>
@@ -724,7 +748,7 @@ const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add("in"); e.target.querySelectorAll("[data-count]").forEach(count); }
   else e.target.classList.remove("in");
 }), { threshold: .12 });
-document.querySelectorAll(".rv").forEach(el => io.observe(el));
+document.querySelectorAll(".rv,.clients").forEach(el => io.observe(el));
 
 // ===== motion extras =====
 const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
