@@ -102,7 +102,7 @@ body.loaded .loader{transform:translateY(-100%);visibility:hidden;transition:tra
 @keyframes drift{to{transform:translate(4%,-3%) scale(1.08)}}
 .hero-top{font:400 13px/1.4 var(--display);letter-spacing:.35em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
 .hero h1{margin:0;font:500 clamp(80px,17vw,250px)/.86 var(--display);letter-spacing:.02em;text-transform:uppercase;clip-path:inset(0 0 100% 0)}
-.hero h1 span{display:block;padding-left:clamp(0px,9vw,140px);background:linear-gradient(90deg,var(--text),var(--accent2) 60%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 span{display:block;padding:.1em 0 .16em clamp(0px,9vw,140px);margin:-.1em 0 -.16em;background:linear-gradient(90deg,var(--text),var(--accent2) 60%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
 body.loaded .hero h1{animation:lift 1.3s .6s cubic-bezier(.2,.7,.2,1) forwards}
 @keyframes lift{from{clip-path:inset(0 0 100% 0);transform:translateY(60px)}to{clip-path:inset(-60% -60% -60% -60%);transform:none}}
 .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-top:34px;flex-wrap:wrap}
